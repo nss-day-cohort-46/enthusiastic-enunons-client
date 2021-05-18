@@ -11,7 +11,7 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch("http://127.0.0.1:8088/login", {
+        return fetch("http://127.0.0.1:8000/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const Login = () => {
             .then(res => res.json())
             .then(res => {
                 if ("valid" in res && res.valid) {
-                    localStorage.setItem("rare_user_id", res.token )
+                    localStorage.setItem("rare_user_id", res.token)
                     history.push("/")
                 }
                 else {
@@ -53,7 +53,7 @@ export const Login = () => {
                         <input ref={password} type="password" id="password" className="form-control" defaultValue="me" placeholder="Password" required />
                     </fieldset>
                     <fieldset style={{
-                        textAlign:"center"
+                        textAlign: "center"
                     }}>
                         <button className="btn btn-1 btn-sep icon-send" type="submit">Sign In</button>
                     </fieldset>
