@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom"
 import "./Auth.css"
 
 export const Register = (props) => {
-    
+
     const firstName = useRef()
     const lastName = useRef()
     const email = useRef()
@@ -24,7 +24,7 @@ export const Register = (props) => {
         e.preventDefault()
 
 
-        if (password.current.value === verifyPassword.current.value) {         
+        if (password.current.value === verifyPassword.current.value) {
             const newUser = {
                 "username": email.current.value,
                 "first_name": firstName.current.value,
@@ -36,9 +36,9 @@ export const Register = (props) => {
                 "created_on": Date.now(),
                 "active": 0
             }
-        
-        return fetch("http://127.0.0.1:8088/register", {
-            
+
+            return fetch("http://127.0.0.1:8000/register", {
+
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,14 +48,13 @@ export const Register = (props) => {
             })
                 .then(resp => resp.json())
                 .then(res => {
-                    console.log('maybe valid')
-                    if ("valid" in res && res.valid) {
+                    if ("token" in res) {
                         localStorage.setItem("rare_user_id", res.token)
                         history.push("/")
                     }
-                    })
-            }
-         else {
+                })
+        }
+        else {
             passwordDialog.current.showModal()
         }
     }
