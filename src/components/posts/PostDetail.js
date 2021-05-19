@@ -30,7 +30,7 @@ export const PostDetail = (props) => {
     return (
         
         <section key={`post--${post.id}`} className="post">
-            <h3 className="post__title">{post.title}</h3>
+            <h2 className="post__title">{post.title}</h2>
             <div className="post__publication_date">
                             {
                                 new Date(post.publicationDate).toLocaleDateString("en-US",
@@ -43,16 +43,6 @@ export const PostDetail = (props) => {
                         </div>
             <img className="post_imageUrl" src={ post.imageUrl }/>
             <div className="post_content">{post.content}</div>
-
-            {/* <div className="post_category">{ 
-            categories.map( category => {
-                if (category.id == post.category_id) {
-                    return categories.label
-                }
-            }
-            )} </div> */}
-
-
 
             <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
 
