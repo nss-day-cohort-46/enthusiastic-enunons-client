@@ -1,16 +1,28 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useState } from "react"
 import { PostContext } from "./PostProvider"
 import { useHistory, Link } from "react-router-dom"
 import "./Post.css"
+import { CategoryContext } from "../categories/CategoryProvider"
 
 export const PostList = (props) => {
     const { posts, getPosts } = useContext(PostContext)
+    const { categories, getCategories } = useContext(CategoryContext)
     const history = useHistory()
+
+    const [sortedPost, setSortedPosts] = useState([])
     
     useEffect(() => {
         getPosts()
-        // .then(getCategories)
+        .then(getCategories)
     }, []);
+
+    useEffect(() => {
+        const sortedPost = posts.sort((a, b) =>
+            new Date(b.publication_date) - new Date(a.publication_date)
+        )
+        setSortedPosts(sortedPost)
+    }, [posts]);
+
     
     return (
     <>
@@ -25,6 +37,7 @@ export const PostList = (props) => {
             {
                 posts.map(post => {
                     return <section key={post.id} post={post} className="post">
+                        <img className="post_image_url" src={ post.image_url }/>
                         <h3 className="post__title">
                             <Link to={`/posts/${post.id}`}>
                                 {post.title}
@@ -41,6 +54,7 @@ export const PostList = (props) => {
                                 })
                             } 
                         </div>
+                        <div>{post.category.label}</div>
                     </section>
                 })
             }
