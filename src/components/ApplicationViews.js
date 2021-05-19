@@ -13,6 +13,7 @@ import { PostForm } from "./posts/PostForm"
 import { HumanDate } from "./utils/HumanDate"
 import { TagProvider } from "./tags/TagProvider"
 import { TagList } from "./tags/TagList"
+import { TagForm } from "./tags/TagForm"
 // import { PostForm } from "./posts/PostForm"
 
 export const ApplicationViews = (props) => {
@@ -54,9 +55,9 @@ export const ApplicationViews = (props) => {
                         <Route exact path="/tags">
                             <TagList />
                         </Route>
-                        {/* <Route exact path="/tags/create">
-                    <TagForm />
-                </Route> */}
+                        <Route exact path="/tags/create">
+                            <TagForm />
+                        </Route>
 
                     </TagProvider>
                 </PostProvider>
