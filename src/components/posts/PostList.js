@@ -30,6 +30,17 @@ export const PostList = (props) => {
                                 {post.title}
                             </Link>
                         </h3>
+                            <div>
+                            {
+                                new Date(post.publication_date).toLocaleDateString("en-US",
+                                {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })
+                            } 
+                        </div>
                     </section>
                 })
             }

@@ -27,7 +27,7 @@ export const ApplicationViews = (props) => {
                 </Route>
                 <Route exact path="/">
                     Welcome to the homepage!
-            </Route>
+                </Route>
 
                 <Route exact path="/users/profile/:userId(\d+)">
                     <UserProfile />
@@ -35,22 +35,21 @@ export const ApplicationViews = (props) => {
             </UserProvider>
             <CategoryProvider>
 
-                <PostProvider>
-                    <Route exact path="/posts">
-                        <PostList />
-                    </Route>
-                    <Route path="/posts/detail/:postId(\d+)" render={
-                        (props) => { return <PostDetail {...props} /> }
-                    }>
+            <PostProvider>
+                <Route exact path="/posts">
+                    <PostList />
+                </Route>
 
-                    </Route>
-                    <Route path="/posts/create">
-                        <PostForm />
-                    </Route>
+                <Route exact path="/posts/:postId(\d+)"> 
+                    <PostDetail />
+                </Route>
+
+                <Route exact path="/posts/create">
+                    <PostForm />
+                </Route>
                 </PostProvider>
 
-            </CategoryProvider>
-            <CategoryProvider>
+            
                 <Route exact path="/categories">
                     <CategoryList />
                 </Route>

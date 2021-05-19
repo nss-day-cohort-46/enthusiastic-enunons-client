@@ -13,17 +13,36 @@ export const PostDetail = (props) => {
 
     useEffect(() => {
         getPostById(postId)
-        
+        .then(post => {
+            setPosts ({
+                id: post.id,
+                rareUser: post.rare_user,
+                title: post.title,
+                categoryId: post.category,
+                publicationDate: post.publication_date,
+                imageUrl: post.image_url,
+                content: post.content,
+                approved: post.approved
+            })
+        })
     }, [])
     
     return (
         
         <section key={`post--${post.id}`} className="post">
             <h3 className="post__title">{post.title}</h3>
-            <div className="post__publication_date">Published: {post.publication_date}</div>
-
-            <a className="post_image_url" href={ post.image_url } target="_blank">{ post.image_url }</a>
-            <div className="post_content">Content: {post.content}</div>
+            <div className="post__publication_date">
+                            {
+                                new Date(post.publicationDate).toLocaleDateString("en-US",
+                                {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })
+                            } 
+                        </div>
+            <img className="post_imageUrl" src={ post.imageUrl }/>
+            <div className="post_content">{post.content}</div>
 
             {/* <div className="post_category">{ 
             categories.map( category => {
@@ -32,12 +51,10 @@ export const PostDetail = (props) => {
                 }
             }
             )} </div> */}
-        
-            <div className="post_imageUrl">{ post.imageUrl }</div>
 
 
 
-        <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
+            <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
 
             <button onClick={() => {
                 props.history.push(`/posts/edit/${postId}`)
