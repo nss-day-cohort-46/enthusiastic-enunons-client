@@ -11,6 +11,7 @@ import { PostList } from "./posts/PostList"
 import { PostDetail } from "./posts/PostDetail"
 import { PostForm } from "./posts/PostForm"
 import { HumanDate } from "./utils/HumanDate"
+import { CommentProvider } from "./comments/CommentProvider"
 // import { PostForm } from "./posts/PostForm"
 
 export const ApplicationViews = (props) => {
@@ -25,31 +26,41 @@ export const ApplicationViews = (props) => {
                 <Route exact path="/users">
                     <UserList />
                 </Route>
+
                 <Route exact path="/">
                     Welcome to the homepage!
-            </Route>
+                </Route>
 
                 <Route exact path="/users/profile/:userId(\d+)">
                     <UserProfile />
                 </Route>
             </UserProvider>
-            <CategoryProvider>
 
+            <CategoryProvider>
                 <PostProvider>
                     <Route exact path="/posts">
                         <PostList />
                     </Route>
+
                     <Route path="/posts/detail/:postId(\d+)" render={
                         (props) => { return <PostDetail {...props} /> }
                     }>
-
                     </Route>
+
                     <Route path="/posts/create">
                         <PostForm />
                     </Route>
                 </PostProvider>
-
             </CategoryProvider>
+
+            <CommentProvider>
+                <PostProvider>
+                    <Route exact path="/comments">
+                        {/* <PostList /> */}
+                    </Route>
+                </PostProvider>
+            </CommentProvider>
+
             <CategoryProvider>
                 <Route exact path="/categories">
                     <CategoryList />
