@@ -1,50 +1,51 @@
-import React, { useEffect, useContext, useState } from "react"
+import React, { useEffect, useContext } from "react"
 import { PostContext } from "./PostProvider"
-import { Post } from "./Post"
+import { useHistory, Link } from "react-router-dom"
 import "./Post.css"
-import { useHistory } from "react-router-dom"
 
-// this is a list of all the post
 export const PostList = (props) => {
-    const { posts, getPosts, searchTerms } = useContext(PostContext)
-    const [ filteredPosts, setFiltered ] = useState([])
+    const { posts, getPosts } = useContext(PostContext)
     const history = useHistory()
     
-    // Empty dependency array - useEffect only runs after first render
     useEffect(() => {
         getPosts()
+        // .then(getCategories)
     }, []);
-    
-
-    
-    // useEffect dependency array with dependencies - will run if dependency changes (state)
-    // searchTerms will cause a change
-    // useEffect(() => {
-    //     if (searchTerms !== "") {
-    //         // If the search field is not blank, display matching posts
-    //         const subset = posts.filter(post => post.title.toLowerCase().includes(searchTerms))
-    //         setFiltered(subset)
-    //     } else {
-    //         // If the search field is blank, display all posts
-    //         setFiltered(posts)
-    //     }
-    //     }, [searchTerms, posts])
     
     return (
     <>
-        <h1>My Post</h1>
+        <article className="posts__page">
 
-        <button onClick={() => history.push("/posts/create")}>
-            Add Post
-        </button>
+            <button onClick={() => history.push("/posts/create")}>
+                Add Post
+            </button>
         
-        <div className="posts">
-        {
-        posts.map(post => {
-            return <Post key={post.id} post={post} />
-        })
-        }
-        </div>
+            <h1>My Posts</h1>
+            <div className="posts">
+            {
+                posts.map(post => {
+                    return <section key={post.id} post={post} className="post">
+                        <h3 className="post__title">
+                            <Link to={`/posts/${post.id}`}>
+                                {post.title}
+                            </Link>
+                        </h3>
+                            <div>
+                            {
+                                new Date(post.publication_date).toLocaleDateString("en-US",
+                                {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })
+                            } 
+                        </div>
+                    </section>
+                })
+            }
+            </div>
+        </article>
     </>
     )
-    }
+}
