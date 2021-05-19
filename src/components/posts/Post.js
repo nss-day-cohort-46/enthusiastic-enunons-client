@@ -25,7 +25,6 @@ export const Post = ({post}) => {
 
         <div className="post_category">{ 
         categories.map( category => {
-        //    debugger 
             if (category.id == post.category_id) {
                 return categories.label
             }
