@@ -13,10 +13,23 @@ export const TagProvider = props => {
   const [tags, setTags] = useState([]);
 
   const getTags = () => {
-    return fetch("http://localhost:8000/tags")
+    return fetch("http://localhost:8000/tags", {
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+      }
+    })
       .then(res => res.json())
       .then(setTags);
   };
+
+  const getTagById = (id) => {
+    return fetch(`http://localhost:8000/tags/${id}`, {
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+      }
+    })
+      .then(res => res.json())
+  }
 
   const createTag = (tag) => {
     return fetch("http://localhost:8000/tags", {
@@ -36,7 +49,8 @@ export const TagProvider = props => {
       value={{
         tags,
         getTags,
-        createTag
+        createTag,
+        getTagById
       }}
     >
       {props.children}
