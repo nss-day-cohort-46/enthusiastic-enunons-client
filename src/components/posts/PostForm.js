@@ -1,97 +1,131 @@
 import React, { useContext, useState, useEffect } from "react"
-import { PostList } from "./PostList";
 import { HumanDate } from "../utils/HumanDate"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
+import { useHistory, useParams } from "react-router-dom"
+
 export const PostForm = (props) => {
     
-    const { addPost, updatePost, post, setPost, getPosts } = useContext(PostContext)
+    const { createPost, updatePost, getPosts, getPostById } = useContext(PostContext)
     const { categories, getCategories } = useContext(CategoryContext)
-    const [editMode, editModeChanged] = useState(false);
+
+    const history = useHistory()
+    const { postId } = useParams()
+
+    const [post, setPost] = useState({
+        rareUser: 0,
+        title: "",
+        categoryId: 0,
+        publicationDate: "",
+        imageUrl: "",
+        content: "",
+        approved: false,
+    })
+
+    const [isLoading, setIsLoading] = useState(true);
+
+
     useEffect(() => {
-    
-        getPosts()
         getCategories()
+        if (postId) {
+            getPostById(postId)
+            .then(post => {
+                setPost({
+                    id: post.id,
+                    rareUser: post.rare_user,
+                    title: post.title,
+                    categoryId: post.category,
+                    publicationDate: post.publication_date,
+                    imageUrl: post.image_url,
+                    content: post.content,
+                    approved: post.approved})
+                })
+            } else {
+            setIsLoading(false)
+        }
     }, [])
 
-
-    useEffect(() => {
-        if ('id' in post) {
-            editModeChanged(true)
-        }
-        else {
-            editModeChanged(false)
-        }
-    }, [post])
-
     const handleControlledInputChange = (event) => {
-        /*
-            When changing a state object or array, always create a new one
-            and change state instead of modifying current one
-        */
-        const newPost = Object.assign({}, post)
-        newPost[event.target.name] = event.target.value
+        const newPost = { ...post }
+        newPost[event.target.id] = event.target.value
         setPost(newPost)
     }
 
-
-
-    const constructNewPost = () => {
-        if (editMode) {
+    const handleSavePost = () => {
+        if (post.title === "" || post.content === "") {
+            window.alert("Please complete all the fields")
+          } else {
+            setIsLoading(true);
+  
+        if (postId){
+            
             updatePost({
                 id: post.id,
-                userId: parseInt(localStorage.getItem("rare_user_id")),
-                categoryId: parseInt(post.categoryId),
+                rareUser: post.rareUser,
                 title: post.title,
+                categoryId: post.category,
                 publicationDate: post.publicationDate,
                 imageUrl: post.imageUrl,
-                content: post.content
+                content: post.content,
+                approved: post.approved
             })
-        } else {
-            // const dateObj = new Date.now()
-            debugger
-            addPost({
-                userId: parseInt(localStorage.getItem("rare_user_id")),
-                categoryId: parseInt(post.categoryId),
+            .then(() => history.push(`/posts`))
+          } else {
+            
+            createPost({
+                rareUser: post.rareUser,
                 title: post.title,
-                publicationDate: HumanDate(),
+                categoryId: post.category,
+                publicationDate: post.publicationDate,
                 imageUrl: post.imageUrl,
-                content: post.content
+                content: post.content,
+                approved: post.approved
             })
-            // .then(() => history.push("/posts"))
+            .then(() => history.push("/posts"))
+          }
         }
-        setPost({ title: "", imageUrl: "", content: ""})
     }
     
     return (
-        <form className="postForm" action="/action_page.php">
-            <h2 className="postForm__title">{editMode ? "Update Post" : "Create Post"}</h2>
+        <form className="postForm">
+            <h2 className="postForm__title">{postId ? "Update Post" : "Create a Post"}</h2>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="title">Todays Journal Title: </label>
-                    <input type="text" name="title" required autoFocus className="form-control"
-                        proptype="varchar"
-                        placeholder="title"
+                    <label htmlFor="title">Title: </label>
+                    <input type="text" id="title" required autoFocus className="form-control"
+                        placeholder="Title of post"
                         value={post.title}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
+
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="content">Todays Journal content: </label>
-                    <input type="text" name="content" required autoFocus className="form-control"
-                        proptype="varchar"
-                        placeholder="content"
-                        value={post.content}
+                    <label htmlFor="content">Image URL: </label>
+                    <input type="text" id="imageUrl" required autoFocus className="form-control"
+                        placeholder="Image URL"
+                        value={post.imageUrl}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
+
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="content">Content: </label>
+                    <textarea rows = "10" id="content" required autoFocus className="form-control"
+                        placeholder="Article content"
+                        value={post.content}
+                        onChange={handleControlledInputChange}>
+                    </textarea>
+                </div>
+            </fieldset>
+
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="categoryId">Category: </label>
-                    <select name="categoryId" className="form-control"
+                    <select id="categoryId" className="form-control"
                         value={post.categoryId}
                         onChange={handleControlledInputChange}>
 
@@ -107,30 +141,15 @@ export const PostForm = (props) => {
                 </div>
             </fieldset>
 
-
-
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="imageUrl">Upload an Image </label>
-                    <input type="text" name="imageUrl" required className="form-control"
-                        proptype="varchar"
-                        placeholder="imageUrl"
-                        value={post.imageUrl}
-                        onChange={handleControlledInputChange}
-                    />
-                    <input type="file" id="myFile" name="filename"/>
-                    <input type="submit"></input>
-                </div>
-            </fieldset>
-
          <div>
                 <button type="submit"
+                disabled={isLoading}
                 onClick={evt => {
                     evt.preventDefault()
-                    constructNewPost()
+                    handleSavePost()
                 }}
                 className="btn btn-primary">
-                {editMode ? "Update" : "Save"}
+                {postId ? "Update" : "Publish"}
             </button>
             </div>
         </form>
