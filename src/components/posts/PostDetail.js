@@ -1,34 +1,50 @@
 import React, { useContext, useEffect, useState } from "react"
 import { PostContext } from "./PostProvider"
-import "./Post.css"
 import { useParams, useHistory } from "react-router-dom"
-// import { Link } from "react-router-dom"
+import "./Post.css"
 
 export const PostDetail = (props) => {
-    console.log(props)
-    const { post, getPostById } = useContext(PostContext)
-    const { updatePost, deletePost } = useContext(PostContext)
+    const { posts, getPostById, updatePost, deletePost } = useContext(PostContext)
 
-
-
+    const [post, setPosts] = useState({})
 
     const {postId} = useParams();
     const history = useHistory();
 
     useEffect(() => {
-        console.log("useEffect", postId)
         getPostById(postId)
+        .then(post => {
+            setPosts ({
+                id: post.id,
+                rareUser: post.rare_user,
+                title: post.title,
+                categoryId: post.category,
+                publicationDate: post.publication_date,
+                imageUrl: post.image_url,
+                content: post.content,
+                approved: post.approved
+            })
+        })
     }, [])
     
     return (
         
-        <section className="post">
-        <h3 className="post_title">{post.title}</h3>
-        <div className="post_publication_date">Published: {post.publication_date}</div>
+        <section key={`post--${post.id}`} className="post">
+            <h2 className="post__title">{post.title}</h2>
+            <div className="post__publication_date">
+                            {
+                                new Date(post.publicationDate).toLocaleDateString("en-US",
+                                {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })
+                            } 
+                        </div>
+            <img className="post_imageUrl" src={ post.imageUrl }/>
+            <div className="post_content">{post.content}</div>
 
-        <a className="post_image_url" href={ post.image_url } target="_blank">{ post.image_url }</a>
-        <div className="post_content">Content: {post.content}</div>
-        <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
+            <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
 
             <button onClick={() => {
                 props.history.push(`/posts/edit/${postId}`)
