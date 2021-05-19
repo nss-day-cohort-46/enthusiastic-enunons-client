@@ -12,6 +12,9 @@ import { PostDetail } from "./posts/PostDetail"
 import { PostForm } from "./posts/PostForm"
 import { HumanDate } from "./utils/HumanDate"
 import { CommentProvider } from "./comments/CommentProvider"
+import { CommentForm } from "./comments/CommentForm"
+import { CommentList } from "./comments/CommentList"
+
 // import { PostForm } from "./posts/PostForm"
 
 export const ApplicationViews = (props) => {
@@ -56,7 +59,13 @@ export const ApplicationViews = (props) => {
             <CommentProvider>
                 <PostProvider>
                     <Route exact path="/comments">
-                        {/* <PostList /> */}
+                        <CommentList />
+                    </Route>
+                    <Route exact path="/comments/create">
+                        <CommentForm />
+                    </Route>
+                    <Route exact path="/comments/:commentId/update">
+                            {/* <CommentForm /> */}
                     </Route>
                 </PostProvider>
             </CommentProvider>

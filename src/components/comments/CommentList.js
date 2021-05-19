@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 
 export const CommentList = (props) => {
-    const { comments, getComments } = useContext(CommentContext)
+    const { comments, getComments, deleteComment } = useContext(CommentContext)
 
     const history = useHistory()
 
@@ -15,11 +15,20 @@ export const CommentList = (props) => {
         getComments()
     }, [])
 
+    const handleDelete = (comment) => {
+        deleteComment(comment.id)
+        .then(() => {
+            history.push("/comments")
+        })
+    }
+
     return (
         <>
+        <h2>Comments</h2>
+
         <button className="btn btn-2 btn-sep icon-create"
             onClick={() => {
-                history.push({ pathname: "/comments/new" })
+                history.push({ pathname: "/comments/create" })
             }}
             >Add Comment
         </button>
@@ -34,7 +43,22 @@ export const CommentList = (props) => {
                             </h3>
                         </div>
                         <br />
-                            {
+
+                        <div className="comment__edit">
+                            <button className="btn btn-3 icon-create"
+                                onClick={() => {
+                                    history.push({pathname: `/comments/${comment.id}/update`})
+                                }
+                            }
+                                >Edit
+                            </button>
+                        </div>
+
+                        <button onClick={handleDelete}>Delete Comment</button>
+
+
+
+                            {/* {
                                 new Date(comment.createdOn).toLocaleDateString("en-US",
                                 {
                                     weekday: 'long',
@@ -42,17 +66,7 @@ export const CommentList = (props) => {
                                     month: 'long',
                                     day: 'numeric'
                                 })
-                            }
-                        {/* <button className="btn btn-2" onClick={() => joinEvent(event.id)}>Join</button> */}
-                        {/* {
-                            event.joined
-                                ? <button className="btn btn-3"
-                                    onClick={() => leaveEvent(event.id)}
-                                    >Leave</button>
-                                : <button className="btn btn-2"
-                                    onClick={() => joinEvent(event.id)}
-                                    >Join</button>
-                        } */}
+                            } */}
                     </section>
                 })
             }
