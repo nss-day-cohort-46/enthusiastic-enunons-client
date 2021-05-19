@@ -10,3 +10,7 @@
     padding: 1em;
     border: 1px solid rgb(0, 0, 0);
 }
+
+.post_imageUrl {
+    width: 500px;
+}

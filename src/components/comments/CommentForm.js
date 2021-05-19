@@ -6,7 +6,7 @@ import { useHistory, useParams } from 'react-router-dom'
 export const CommentForm = () => {
     const history = useHistory()
     const { getComments, createComment, getCommentById } = useContext(CommentContext)
-    const {commentId} = useParams()
+    const {commentId, postId} = useParams()
 
     /*
         Since the input fields are bound to the values of
@@ -29,22 +29,22 @@ export const CommentForm = () => {
         getComments()
     }, [])
 
-    const changeEvent = (event) => {
+    const handleControlledInputChange = (event) => {
         const newCommentState = { ...currentComment }
-        newCommentState.content = event.target.value
+        newCommentState[event.target.id] = event.target.value
         setCurrentComment(newCommentState)
     }
 
 
     return (
             <form className="commentForm">
-                <h2 className="commentForm__title">Create New Comment</h2>
+                <h2 className="commentForm__title">{commentId ? "Edit":"Add"}</h2>
                 <fieldset>
                     <div className="form-group">
                         <label htmlFor="content">Text: </label>
-                        <input type="text" name="content" required autoFocus className="form-control"
+                        <input type="text" id="content" required autoFocus className="form-control"
                             value={currentComment.content}
-                            onChange={changeEvent}
+                            onChange={handleControlledInputChange}
                         />
                     </div>
                 </fieldset>
@@ -64,7 +64,7 @@ export const CommentForm = () => {
                     .then(() => history.push("/comments"))
                 }}
             
-            className="btn btn-primary">{commentId?"Save":"Create"}</button>
+            className="btn btn-primary">{commentId ? "Save":"Add"}</button>
     </form> 
     )
 }

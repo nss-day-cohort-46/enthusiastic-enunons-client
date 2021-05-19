@@ -19,11 +19,10 @@ export const Category = ( { category } ) => {
       }
 
     useEffect(() => {
-        
-        getCategoryById(categoryId)
-        .then((response) => {
-          setCategories(response)
-        })
+        // getCategoryById(category.id)
+        // .then((response) => {
+        //   setCategories(response)
+        // })
         }, [])
 
     return (
