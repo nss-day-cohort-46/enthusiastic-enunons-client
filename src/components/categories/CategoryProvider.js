@@ -1,46 +1,64 @@
 import React, { useState } from "react"
 
 export const CategoryContext = React.createContext()
+let fetchHost = "http://localhost:8000"
 
 export const CategoryProvider = (props) => {
     const [categories, setCategories] = useState([])
 
     const getCategories = () => {
-        return fetch("http://localhost:8088/categories")
+        // debugger
+        return fetch(`${fetchHost}/categories`,{
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        }
+        )
             .then(res => res.json())
             .then(setCategories)
     }
 
     const addCategory = category => {
-        return fetch("http://localhost:8088/categories", {
+        return fetch(`${fetchHost}/categories`,{
             method: "POST",
             headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(category)
         })
-            .then(getCategories)
+        // .then(getCategories)
     }
-
+    
     const getCategoryById = (id) => {
-        return fetch(`http://localhost:8088/categories/${id}`)
-            .then(res => res.json())
+        return fetch(`${fetchHost}/categories/${id}`,{
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        }
+        )
+        .then(res => res.json())
     }
-
+    
     const updateCategory = category => {
-        return fetch(`http://localhost:8088/categories/${category.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(category)
+        // debugger
+        return fetch(`${fetchHost}/categories/${category.id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(category)
         })
-          .then(getCategories)
-      }
+        .then(getCategories)
+    }
     
     const deleteCategory = categoryId => {
-        return fetch(`http://localhost:8088/categories/${categoryId}`, {
-            method: "DELETE"
+        return fetch(`${fetchHost}/categories/${categoryId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+            }
         })
             .then(getCategories)
     }
