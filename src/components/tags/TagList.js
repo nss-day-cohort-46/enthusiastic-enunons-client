@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react"
 import { TagContext } from "./TagProvider"
 import { useHistory } from 'react-router-dom';
-import { Category } from "./Category"
+// import { Tag } from "./Tag"
 
 
 export const TagList = () => {
@@ -24,7 +24,9 @@ export const TagList = () => {
             <div className="tags">
                 {
                     tags.map(tag => {
-                        return <Tag key={tag.id} tag={tag} />
+                        return <div key={tag.id} tag={tag}>
+                            <div>{tag.label}</div>
+                        </div>
                     })
                 }
             </div>
