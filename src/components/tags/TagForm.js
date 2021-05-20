@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { TagContext } from "./TagProvider.js"
 
 export const TagForm = () => {
-    const { getTags, createTag } = useContext(TagContext)
+    const { getTags, createTag, getTagById, updateTag } = useContext(TagContext)
     const history = useHistory()
+    const { tagId } = useParams()
 
     const [currentTag, setTag] = useState({
         label: ""
@@ -12,6 +13,14 @@ export const TagForm = () => {
 
     useEffect(() => {
         getTags()
+            .then(() => {
+                if (tagId) {
+                    getTagById(tagId)
+                        .then(tag => {
+                            setTag(tag)
+                        })
+                }
+            })
     }, [])
 
     const handleChange = (event) => {
@@ -31,16 +40,27 @@ export const TagForm = () => {
                         onChange={handleChange} />
                 </div>
             </fieldset>
-
-            <button type="submit"
-                onClick={evt => {
-                    evt.preventDefault()
-                    createTag({
-                        label: currentTag.label
-                    })
-                        .then(() => history.push("/tags"))
-                }} id="edit__button">
-                Create Tag</button>
+            {tagId ?
+                <button type="submit"
+                    onClick={evt => {
+                        evt.preventDefault()
+                        updateTag({
+                            id: tagId,
+                            label: currentTag.label
+                        })
+                            .then(() => history.push("/tags"))
+                    }} id="edit__button">
+                    Save Tag</button>
+                : <button type="submit"
+                    onClick={evt => {
+                        evt.preventDefault()
+                        createTag({
+                            label: currentTag.label
+                        })
+                            .then(() => history.push("/tags"))
+                    }} id="edit__button">
+                    Add Tag</button>
+            }
         </form>
     )
 
