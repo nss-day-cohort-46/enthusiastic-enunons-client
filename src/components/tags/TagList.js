@@ -6,6 +6,7 @@ import "./Tag.css"
 
 export const TagList = () => {
     const { tags, getTags } = useContext(TagContext)
+    const currentAdmin = localStorage.getItem("admin")
 
     const history = useHistory();
 
@@ -26,9 +27,14 @@ export const TagList = () => {
                     tags.map(tag => {
                         return <div key={tag.id} tag={tag}>
                             <div>{tag.label}</div>
+                            {currentAdmin === "true" ?
+                                <button onClick={() => history.push(`/tags/${tag.id}/edit`)}>
+                                    Edit</button>
+                                : ""}
                         </div>
                     })
                 }
+
             </div>
         </div>
     )

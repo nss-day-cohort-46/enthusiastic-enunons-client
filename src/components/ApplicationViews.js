@@ -6,6 +6,7 @@ import { UserProvider } from "./users/UserProvider"
 import { CategoryProvider } from "./categories/CategoryProvider"
 import { CategoryList } from "./categories/CategoryList"
 import { CategoryForm } from "./categories/CategoryForm"
+import { CategorySearch } from "./categories/CategorySearch"
 import { PostProvider } from "./posts/PostProvider"
 import { PostList } from "./posts/PostList"
 import { PostDetail } from "./posts/PostDetail"
@@ -58,12 +59,16 @@ export const ApplicationViews = (props) => {
                         <Route exact path="/tags/create">
                             <TagForm />
                         </Route>
+                        <Route exact path="/tags/:tagId/edit">
+                            <TagForm />
+                        </Route>
 
                     </TagProvider>
                 </PostProvider>
 
 
                 <Route exact path="/categories">
+                    <CategorySearch />
                     <CategoryList />
                 </Route>
 

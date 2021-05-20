@@ -1,17 +1,26 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { CategoryContext } from "./CategoryProvider"
 import { useHistory } from 'react-router-dom';
 import { Category } from "./Category"
 import "./Category.css"
 
 export const CategoryList = () => {
-    const { categories, getCategories } = useContext(CategoryContext)
-
+    const { categories, getCategories, searchTerms } = useContext(CategoryContext)
+    const [filteredCategories, setFilteredCategories] = useState([])
     const history = useHistory();
 
     useEffect(() => {
-        getCategories()
-    }, [])
+        getCategories(searchTerms)
+    }, [searchTerms])
+
+    //good useEffect
+    // useEffect(() => {
+    //     getCategories()
+    // }, [])
+
+useEffect(() => {
+    // setFiltered(matchingCategories)
+},[])
 
     return (
         <div className="category__page">
