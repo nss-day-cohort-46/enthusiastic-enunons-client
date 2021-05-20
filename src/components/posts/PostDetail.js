@@ -6,13 +6,17 @@ import "./Post.css"
 
 export const PostDetail = (props) => {
     const { posts, getPostById, updatePost, deletePost } = useContext(PostContext)
-    const { tags, getTagById } = useContext(TagContext)
+    const { tags, getTags } = useContext(TagContext)
 
     const [post, setPosts] = useState({})
 
     const { postId } = useParams();
     const history = useHistory();
     const modal = useRef()
+
+    useEffect(() => {
+        getTags()
+    }, [])
 
     useEffect(() => {
         getPostById(postId)
@@ -29,6 +33,8 @@ export const PostDetail = (props) => {
                 })
             })
     }, [])
+
+
 
     const handleAddTags = () => {
 
@@ -61,11 +67,14 @@ export const PostDetail = (props) => {
 
             <dialog className="claimModal" ref={modal}>
                 <h3>Choose Tags</h3>
-                <label>
-                    <input type="checkbox"></input>
-                </label>
+                {tags.map(tag => (
+                    < label value={tag.id} > { tag.label}
+                        < input type="checkbox" > {tag.label}</input>
+                    </label>
+                ))
+                }
                 <button onClick={handleAddTags}>Add Tags and Close</button>
-            </dialog>
-        </section>
+            </dialog >
+        </section >
     )
 }
