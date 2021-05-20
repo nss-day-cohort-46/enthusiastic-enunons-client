@@ -5,10 +5,11 @@ let fetchHost = "http://localhost:8000"
 
 export const CategoryProvider = (props) => {
     const [categories, setCategories] = useState([])
+    const [searchTerms, setTerms] = useState("")
 
-    const getCategories = () => {
+    const getCategories = (searchTerms) => {
         // debugger
-        return fetch(`${fetchHost}/categories`,{
+        return fetch(`${fetchHost}/categories?searchTerms=${searchTerms}`,{
             headers:{
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             }
@@ -65,7 +66,7 @@ export const CategoryProvider = (props) => {
 
     return (
         <CategoryContext.Provider value={{
-            categories, getCategories, addCategory, getCategoryById, updateCategory, deleteCategory
+            categories, searchTerms, setTerms, getCategories, addCategory, getCategoryById, updateCategory, deleteCategory
         }}>
             {props.children}
         </CategoryContext.Provider>
