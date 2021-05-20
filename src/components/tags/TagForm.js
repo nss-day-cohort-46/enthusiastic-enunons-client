@@ -61,6 +61,9 @@ export const TagForm = () => {
                     }} id="edit__button">
                     Add Tag</button>
             }
+            <button onClick={() => {
+                history.push("/tags")
+            }} id="delete__button">Cancel</button>
         </form>
     )
 
