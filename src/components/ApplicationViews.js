@@ -25,6 +25,8 @@ export const ApplicationViews = (props) => {
                 lineHeight: "1.75rem"
             }}>
             </main>
+            <CommentProvider>
+
             <UserProvider>
                 <Route exact path="/users">
                     <UserList />
@@ -32,12 +34,18 @@ export const ApplicationViews = (props) => {
 
                 <Route exact path="/">
                     Welcome to the homepage!
+                    <CommentList />
+                    {/* <CommentForm /> */}
+
+
                 </Route>
 
                 <Route exact path="/users/profile/:userId(\d+)">
                     <UserProfile />
                 </Route>
             </UserProvider>
+            </CommentProvider>
+
 
             <CommentProvider>
                 <PostProvider>
@@ -48,39 +56,41 @@ export const ApplicationViews = (props) => {
                         <CommentForm />
                     </Route>
                     <Route exact path="/comments/:commentId/update">
-                            {/* <CommentForm /> */}
+                            <CommentForm />
                     </Route>
                 </PostProvider>
             </CommentProvider>
 
-            <CategoryProvider>
-            <PostProvider>
-                <Route exact path="/posts">
-                    <PostList />
-                </Route>
+            <CommentProvider>
+                <CategoryProvider>
+                    <PostProvider>
+                        <Route exact path="/posts">
+                            <PostList />
+                        </Route>
 
-                <Route exact path="/posts/:postId(\d+)"> 
-                    <PostDetail />
-                </Route>
+                        <Route exact path="/posts/:postId(\d+)"> 
+                            <PostDetail />
+                            <CommentForm />
+                        </Route>
 
-                <Route exact path="/posts/create">
-                    <PostForm />
-                </Route>
-                </PostProvider>
+                        <Route exact path="/posts/create">
+                            <PostForm />
+                        </Route>
 
-            
-                <Route exact path="/categories">
-                    <CategoryList />
-                </Route>
+                        <Route exact path="/categories">
+                            <CategoryList />
+                        </Route>
 
-                <Route path="/categories/create">
-                    <CategoryForm />
-                </Route>
+                        <Route path="/categories/create">
+                            <CategoryForm />
+                        </Route>
 
-                <Route path="/categories/edit/:categoryId(\d+)">
-                    <CategoryForm />
-                </Route>
-            </CategoryProvider>
+                        <Route path="/categories/edit/:categoryId(\d+)">
+                            <CategoryForm />
+                        </Route>
+                        </PostProvider>
+                </CategoryProvider>
+            </CommentProvider>
         </>
     )
 }

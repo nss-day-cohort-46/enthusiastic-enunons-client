@@ -38,7 +38,7 @@ export const CommentForm = () => {
 
     return (
             <form className="commentForm">
-                <h2 className="commentForm__title">{commentId ? "Edit":"Add"}</h2>
+                <h2 className="commentForm__title">{postId ? "Add Comment":"Edit Comment"}</h2>
                 <fieldset>
                     <div className="form-group">
                         <label htmlFor="content">Text: </label>
@@ -56,15 +56,18 @@ export const CommentForm = () => {
                     evt.preventDefault()
 
                     const comment = {
+                        postId: postId,
                         content: currentComment.content,
                         createdOn: currentComment.date
                     }
 
                     createComment(comment)
-                    .then(() => history.push("/comments"))
+                    .then(() => history.push("/posts"))
                 }}
             
-            className="btn btn-primary">{commentId ? "Save":"Add"}</button>
+            className="btn btn-primary">
+                {commentId ? "Save":"Add"}
+            </button>
     </form> 
     )
 }

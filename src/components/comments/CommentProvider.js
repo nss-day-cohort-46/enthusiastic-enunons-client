@@ -7,9 +7,9 @@ export const CommentProvider = (props) => {
 
     const getComments = () => {
         return fetch("http://localhost:8000/comments", {
-            // headers:{
-            //     "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
-            // }
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
         })
             .then(response => response.json())
             .then(setComments)
@@ -19,19 +19,19 @@ export const CommentProvider = (props) => {
         return fetch("http://localhost:8000/comments", {
             method: "POST",
             headers:{
-                // "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(commentObj)
         })
-            .then(response => response.json())
+            // .then(getComments)
     }
 
     const getCommentById = (id) => {
         return fetch(`http://localhost:8000/comments/${id}`, {
-            // headers:{
-            //     "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
-            // }
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
         })
             .then(response => response.json())
     }
