@@ -44,7 +44,8 @@ export const PostDetail = (props) => {
             <img className="post_imageUrl" src={ post.imageUrl }/>
             <div className="post_content">{post.content}</div>
 
-            <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
+            <button onClick={() => deletePost(post.id).then(() => history.push("/posts"))}
+                >Delete Post</button>
 
             <button onClick={() => {
                 props.history.push(`/posts/edit/${postId}`)

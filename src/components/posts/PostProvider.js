@@ -25,7 +25,7 @@ export const PostProvider = (props) => {
                 .then(response => response.json())
     }
 
-    const createPost = postObj => {
+    const createPost = post => {
         return fetch("http://localhost:8000/posts", {
             method: "POST",
             headers:{
@@ -50,7 +50,7 @@ export const PostProvider = (props) => {
     }
 
     const deletePost = postId => {
-        return fetch(`http://localhost:8000/posts/${ postId }/detail`, {
+        return fetch(`http://localhost:8000/posts/${postId}`, {
             method: "DELETE",
             headers:{
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`

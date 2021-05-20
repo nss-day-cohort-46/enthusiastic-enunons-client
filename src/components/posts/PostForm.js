@@ -6,17 +6,15 @@ import { useHistory, useParams } from "react-router-dom"
 
 export const PostForm = (props) => {
     
-    const { createPost, updatePost, getPosts, getPostById } = useContext(PostContext)
+    const { createPost, updatePost, getPostById } = useContext(PostContext)
     const { categories, getCategories } = useContext(CategoryContext)
 
     const history = useHistory()
     const { postId } = useParams()
 
     const [post, setPost] = useState({
-        rareUser: 0,
         title: "",
         categoryId: 0,
-        publicationDate: "",
         imageUrl: "",
         content: "",
         approved: false,
@@ -32,9 +30,9 @@ export const PostForm = (props) => {
             .then(post => {
                 setPost({
                     id: post.id,
-                    rareUser: post.rare_user,
+                    rareUserId: post.rare_user,
                     title: post.title,
-                    categoryId: post.category,
+                    categoryId: post.category.id,
                     publicationDate: post.publication_date,
                     imageUrl: post.image_url,
                     content: post.content,
@@ -63,7 +61,7 @@ export const PostForm = (props) => {
                 id: post.id,
                 rareUser: post.rareUser,
                 title: post.title,
-                categoryId: post.category,
+                categoryId: post.categoryId,
                 publicationDate: post.publicationDate,
                 imageUrl: post.imageUrl,
                 content: post.content,
@@ -75,7 +73,7 @@ export const PostForm = (props) => {
             createPost({
                 rareUser: post.rareUser,
                 title: post.title,
-                categoryId: post.category,
+                categoryId: post.categoryId,
                 publicationDate: post.publicationDate,
                 imageUrl: post.imageUrl,
                 content: post.content,
