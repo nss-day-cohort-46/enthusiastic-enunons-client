@@ -22,3 +22,7 @@
 .post_image_url {
     width: 300px;
 }
+
+.submit_button {
+    margin-right: 15px;
+}

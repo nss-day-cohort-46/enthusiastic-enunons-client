@@ -48,15 +48,11 @@ export const PostForm = (props) => {
         newPost[event.target.id] = event.target.value
         setPost(newPost)
     }
-
-    const handleSavePost = () => {
-        if (post.title === "" || post.content === "") {
-            window.alert("Please complete all the fields")
-          } else {
-            setIsLoading(true);
-  
+    
+    const handleSavePost = (event) => {
+        event.preventDefault()
+        
         if (postId){
-            
             updatePost({
                 id: post.id,
                 rareUser: post.rareUser,
@@ -79,10 +75,10 @@ export const PostForm = (props) => {
                 content: post.content,
                 approved: post.approved
             })
-            .then(() => history.push("/posts"))
+            .then(() => history.push(`/posts`))
           }
         }
-    }
+    
     
     return (
         <form className="postForm">
@@ -90,7 +86,7 @@ export const PostForm = (props) => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="title">Title: </label>
-                    <input type="text" id="title" required autoFocus className="form-control"
+                    <input type="text" id="title" required className="form-control"
                         placeholder="Title of post"
                         value={post.title}
                         onChange={handleControlledInputChange}
@@ -101,7 +97,7 @@ export const PostForm = (props) => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="content">Image URL: </label>
-                    <input type="text" id="imageUrl" required autoFocus className="form-control"
+                    <input type="text" id="imageUrl" required className="form-control"
                         placeholder="Image URL"
                         value={post.imageUrl}
                         onChange={handleControlledInputChange}
@@ -112,7 +108,7 @@ export const PostForm = (props) => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="content">Content: </label>
-                    <textarea rows = "10" id="content" required autoFocus className="form-control"
+                    <textarea rows = "10" id="content" required className="form-control"
                         placeholder="Article content"
                         value={post.content}
                         onChange={handleControlledInputChange}>
@@ -123,33 +119,32 @@ export const PostForm = (props) => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="categoryId">Category: </label>
-                    <select id="categoryId" className="form-control"
+                    <select id="categoryId" required className="form-control"
                         value={post.categoryId}
                         onChange={handleControlledInputChange}>
 
-                        <option value="0">Select a Category</option>
+                        <option value="0">Select a category</option>
                         {
-                        categories.map(c => (
+                            categories.map(c => (
                             
-                            <option key={c.id} value={c.id}>
-                                {c.label}
-                            </option>
+                                <option key={c.id} value={c.id}>
+                                    {c.label}
+                                </option>
                         ))}
                     </select>
                 </div>
             </fieldset>
 
          <div>
-                <button type="submit"
-                disabled={isLoading}
-                onClick={evt => {
-                    evt.preventDefault()
-                    handleSavePost()
-                }}
+            <button type="submit"
+                
+                onClick={(event) => 
+                    handleSavePost(event)
+                }
                 className="btn btn-primary">
                 {postId ? "Update" : "Publish"}
             </button>
-            </div>
-        </form>
+        </div>
+    </form>
     )
 }
