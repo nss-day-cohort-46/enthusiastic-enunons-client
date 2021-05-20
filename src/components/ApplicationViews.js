@@ -11,6 +11,9 @@ import { PostList } from "./posts/PostList"
 import { PostDetail } from "./posts/PostDetail"
 import { PostForm } from "./posts/PostForm"
 import { HumanDate } from "./utils/HumanDate"
+import { TagProvider } from "./tags/TagProvider"
+import { TagList } from "./tags/TagList"
+import { TagForm } from "./tags/TagForm"
 // import { PostForm } from "./posts/PostForm"
 
 export const ApplicationViews = (props) => {
@@ -35,21 +38,31 @@ export const ApplicationViews = (props) => {
             </UserProvider>
             <CategoryProvider>
 
-            <PostProvider>
-                <Route exact path="/posts">
-                    <PostList />
-                </Route>
+                <PostProvider>
+                    <TagProvider>
+                        <Route exact path="/posts">
+                            <PostList />
+                        </Route>
 
-                <Route exact path="/posts/:postId(\d+)"> 
-                    <PostDetail />
-                </Route>
+                        <Route exact path="/posts/:postId(\d+)">
+                            <PostDetail />
+                        </Route>
 
-                <Route exact path="/posts/create">
-                    <PostForm />
-                </Route>
+                        <Route exact path="/posts/create">
+                            <PostForm />
+                        </Route>
+
+                        <Route exact path="/tags">
+                            <TagList />
+                        </Route>
+                        <Route exact path="/tags/create">
+                            <TagForm />
+                        </Route>
+
+                    </TagProvider>
                 </PostProvider>
 
-            
+
                 <Route exact path="/categories">
                     <CategoryList />
                 </Route>
