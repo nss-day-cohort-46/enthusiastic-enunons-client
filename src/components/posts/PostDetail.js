@@ -23,7 +23,7 @@ export const PostDetail = (props) => {
             .then(post => {
                 setPosts({
                     id: post.id,
-                    rareUser: post.rare_user,
+                    rareUser: post.rare_user.user.first_name + " " + post.rare_user.user.last_name,
                     title: post.title,
                     categoryId: post.category,
                     publicationDate: post.publication_date,
@@ -31,50 +31,51 @@ export const PostDetail = (props) => {
                     content: post.content,
                     approved: post.approved
                 })
-            })
-    }, [])
+            }, [])
 
 
 
-    const handleAddTags = () => {
+        const handleAddTags = () => {
 
-        modal.current.close()
-        history.push(`/posts/edit/${postId}`)
+            modal.current.close()
+            history.push(`/posts/edit/${postId}`)
+        }
+
+        return (
+
+            <section key={`post--${post.id}`} className="post">
+                <h2 className="post__title">{post.title}</h2>
+                <div className="post_author">By: {post.rareUser}</div>
+                <div className="post__publication_date">Published on:&nbsp;
+                            {
+                        new Date(post.publicationDate).toLocaleDateString("en-US",
+                            {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            })
+                    }
+                </div>
+                <img className="post_imageUrl" src={post.imageUrl} />
+                <div className="post_content">{post.content}</div>
+                <button onClick={() => modal.current.showModal()}>Add Tags</button>
+
+
+                <dialog className="claimModal" ref={modal}>
+                    <h3>Choose Tags</h3>
+                    {tags.map(tag => (
+                        < label value={tag.id} > { tag.label}
+                            < input type="checkbox" > {tag.label}</input>
+                        </label>
+                    ))
+                    }
+                    <button onClick={handleAddTags}>Add Tags and Close</button>
+                </dialog >
+                <button className="submit_button" onClick={() => deletePost(post.id).then(() => history.push("/posts"))}
+                >Delete</button>
+
+                <button onClick={() => history.push(`/posts/${postId}/edit`)}
+                >Edit</button>
+            </section >
+        )
     }
-
-    return (
-
-        <section key={`post--${post.id}`} className="post">
-            <h2 className="post__title">{post.title}</h2>
-            <div className="post__publication_date">
-                {
-                    new Date(post.publicationDate).toLocaleDateString("en-US",
-                        {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        })
-                }
-            </div>
-            <img className="post_imageUrl" src={post.imageUrl} />
-            <div className="post_content">{post.content}</div>
-            <button onClick={() => modal.current.showModal()}>Add Tags</button>
-
-            <button onClick={() => deletePost(post.id).then(() => props.history.push("/posts"))} >Delete Post</button>
-            <button onClick={() => {
-                props.history.push(`/posts/edit/${postId}`)
-            }}>Edit</button>
-
-            <dialog className="claimModal" ref={modal}>
-                <h3>Choose Tags</h3>
-                {tags.map(tag => (
-                    < label value={tag.id} > { tag.label}
-                        < input type="checkbox" > {tag.label}</input>
-                    </label>
-                ))
-                }
-                <button onClick={handleAddTags}>Add Tags and Close</button>
-            </dialog >
-        </section >
-    )
-}
