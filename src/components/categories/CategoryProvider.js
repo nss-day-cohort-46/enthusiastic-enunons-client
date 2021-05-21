@@ -7,7 +7,19 @@ export const CategoryProvider = (props) => {
     const [categories, setCategories] = useState([])
     const [searchTerms, setTerms] = useState("")
 
-    const getCategories = (searchTerms) => {
+    const getCategories = () => {
+        // debugger
+        return fetch(`${fetchHost}/categories`,{
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        }
+        )
+            .then(res => res.json())
+            .then(setCategories)
+    }
+    
+    const getCategoriesSearch = (searchTerms) => {
         // debugger
         return fetch(`${fetchHost}/categories?searchTerms=${searchTerms}`,{
             headers:{
@@ -66,7 +78,7 @@ export const CategoryProvider = (props) => {
 
     return (
         <CategoryContext.Provider value={{
-            categories, searchTerms, setTerms, getCategories, addCategory, getCategoryById, updateCategory, deleteCategory
+            categories, searchTerms, setTerms, getCategories, getCategoriesSearch, addCategory, getCategoryById, updateCategory, deleteCategory
         }}>
             {props.children}
         </CategoryContext.Provider>
