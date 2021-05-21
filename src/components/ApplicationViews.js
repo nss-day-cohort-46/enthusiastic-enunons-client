@@ -15,6 +15,7 @@ import { TagProvider } from "./tags/TagProvider"
 import { TagList } from "./tags/TagList"
 import { TagForm } from "./tags/TagForm"
 import { PostSearch } from "./posts/PostSearch"
+import { MyPostList } from "./posts/MyPostList"
 
 export const ApplicationViews = (props) => {
     return (
@@ -35,7 +36,7 @@ export const ApplicationViews = (props) => {
                 <Route exact path="/users/profile/:userId(\d+)">
                     <UserProfile />
                 </Route>
-            </UserProvider>
+            
             <CategoryProvider>
 
                 <PostProvider>
@@ -43,6 +44,10 @@ export const ApplicationViews = (props) => {
                         <Route exact path="/posts">
                             <PostSearch />
                             <PostList />
+                        </Route>
+
+                        <Route exact path="/myposts">
+                            <MyPostList />
                         </Route>
 
                         <Route exact path="/posts/:postId(\d+)">
@@ -69,7 +74,7 @@ export const ApplicationViews = (props) => {
 
                     </TagProvider>
                 </PostProvider>
-
+                
 
                 <Route exact path="/categories">
                     <CategorySearch />
@@ -84,6 +89,7 @@ export const ApplicationViews = (props) => {
                     <CategoryForm />
                 </Route>
             </CategoryProvider>
+            </UserProvider>
         </>
     )
 }

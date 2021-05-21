@@ -40,6 +40,8 @@ export const PostList = (props) => {
             <div className="posts">
             {
                 posts.map(post => {
+
+                    
                     return <section key={post.id} post={post} className="post">
                         <img className="post_image_url" src={ post.image_url }/>
                         <h3 className="post__title">

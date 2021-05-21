@@ -26,6 +26,15 @@ export const PostProvider = (props) => {
                 .then(response => response.json())
     }
 
+    const getPostsByUserId = (id) => {
+        return fetch(`http://localhost:8000/posts?user=${id}`, {
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+            }})
+                .then(response => response.json())
+                .then(setPosts)
+    }
+
     const getPostSearch = (searchTerms) => {
         return fetch(`http://localhost:8000/posts?searchTerms=${searchTerms}`,{
             headers:{
@@ -73,7 +82,7 @@ export const PostProvider = (props) => {
 
     return (
         <PostContext.Provider value={{ posts, searchTerms, setTerms, setPost, getPosts, getPostById,
-            createPost, updatePost, deletePost, getPostSearch }}>
+            createPost, updatePost, deletePost, getPostSearch, getPostsByUserId }}>
             {props.children}
         </PostContext.Provider>
     )
