@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react"
-import { HumanDate } from "../utils/HumanDate"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { useHistory, useParams } from "react-router-dom"
@@ -32,7 +31,7 @@ export const PostForm = (props) => {
                     id: post.id,
                     rareUserId: post.rare_user,
                     title: post.title,
-                    categoryId: post.category.id,
+                    categoryId: post.category,
                     publicationDate: post.publication_date,
                     imageUrl: post.image_url,
                     content: post.content,
