@@ -11,11 +11,10 @@ import { PostProvider } from "./posts/PostProvider"
 import { PostList } from "./posts/PostList"
 import { PostDetail } from "./posts/PostDetail"
 import { PostForm } from "./posts/PostForm"
-import { HumanDate } from "./utils/HumanDate"
 import { TagProvider } from "./tags/TagProvider"
 import { TagList } from "./tags/TagList"
 import { TagForm } from "./tags/TagForm"
-// import { PostForm } from "./posts/PostForm"
+import { PostSearch } from "./posts/PostSearch"
 
 export const ApplicationViews = (props) => {
     return (
@@ -42,6 +41,7 @@ export const ApplicationViews = (props) => {
                 <PostProvider>
                     <TagProvider>
                         <Route exact path="/posts">
+                            <PostSearch />
                             <PostList />
                         </Route>
 

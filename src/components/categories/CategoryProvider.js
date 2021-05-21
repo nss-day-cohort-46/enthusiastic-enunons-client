@@ -8,7 +8,6 @@ export const CategoryProvider = (props) => {
     const [searchTerms, setTerms] = useState("")
 
     const getCategories = () => {
-        // debugger
         return fetch(`${fetchHost}/categories`,{
             headers:{
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
@@ -20,7 +19,6 @@ export const CategoryProvider = (props) => {
     }
     
     const getCategoriesSearch = (searchTerms) => {
-        // debugger
         return fetch(`${fetchHost}/categories?searchTerms=${searchTerms}`,{
             headers:{
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`

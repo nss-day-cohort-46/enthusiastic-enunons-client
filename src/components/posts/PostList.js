@@ -5,7 +5,7 @@ import "./Post.css"
 import { CategoryContext } from "../categories/CategoryProvider"
 
 export const PostList = (props) => {
-    const { posts, getPosts } = useContext(PostContext)
+    const { posts, getPosts, getPostSearch, searchTerms } = useContext(PostContext)
     const { categories, getCategories } = useContext(CategoryContext)
     const history = useHistory()
 
@@ -22,6 +22,10 @@ export const PostList = (props) => {
         )
         setSortedPosts(sortedPost)
     }, [posts]);
+
+    useEffect(() => {
+        getPostSearch(searchTerms)
+    }, [searchTerms])
 
     
     return (

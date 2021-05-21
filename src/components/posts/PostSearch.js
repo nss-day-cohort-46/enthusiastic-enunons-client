@@ -1,13 +1,13 @@
 import React, { useContext } from "react"
-import { CategoryContext } from "./CategoryProvider"
+import { PostContext } from "./PostProvider"
 
-export const CategorySearch = () => {
-    const { setTerms } = useContext(CategoryContext)
+export const PostSearch = () => {
+    const { setTerms } = useContext(PostContext)
 
     return (
         <>
-            <div className="search">Search for a category</div>
-            <input type="text" className="category__search"
+            <div className="search">Search for an article</div>
+            <input type="text" className="post__search"
                 onChange={
                     (changeEvent) => {
                         setTerms(changeEvent.target.value)

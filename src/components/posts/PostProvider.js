@@ -5,6 +5,7 @@ export const PostContext = createContext()
 export const PostProvider = (props) => {
     const [posts, setPosts] = useState([])
     const [post, setPost] = useState({})
+    const [searchTerms, setTerms] = useState("")
     
     const getPosts = () => {
     
@@ -23,6 +24,17 @@ export const PostProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
             }})
                 .then(response => response.json())
+    }
+
+    const getPostSearch = (searchTerms) => {
+        return fetch(`http://localhost:8000/posts?searchTerms=${searchTerms}`,{
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        }
+        )
+            .then(response => response.json())
+            .then(setPosts)
     }
 
     const createPost = post => {
@@ -60,8 +72,8 @@ export const PostProvider = (props) => {
     }
 
     return (
-        <PostContext.Provider value={{ posts, setPost, getPosts, getPostById,
-            createPost, updatePost, deletePost }}>
+        <PostContext.Provider value={{ posts, searchTerms, setTerms, setPost, getPosts, getPostById,
+            createPost, updatePost, deletePost, getPostSearch }}>
             {props.children}
         </PostContext.Provider>
     )
