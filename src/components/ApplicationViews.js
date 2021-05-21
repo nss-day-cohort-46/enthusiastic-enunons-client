@@ -53,6 +53,10 @@ export const ApplicationViews = (props) => {
                             <PostForm />
                         </Route>
 
+                        <Route exact path="/posts/:postId(\d+)/edit">
+                            <PostForm />
+                        </Route>
+
                         <Route exact path="/tags">
                             <TagList />
                         </Route>
