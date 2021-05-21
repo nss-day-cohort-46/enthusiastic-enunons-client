@@ -9,13 +9,15 @@ export const PostDetail = (props) => {
     const { tags, getTags } = useContext(TagContext)
 
     const [post, setPosts] = useState({})
+    const [currentTags, setTags] = useState([])
 
     const { postId } = useParams();
     const history = useHistory();
-    const modal = useRef()
+    const modal = useRef();
 
     useEffect(() => {
         getTags()
+            .then(()
     }, [])
 
     useEffect(() => {
@@ -31,51 +33,48 @@ export const PostDetail = (props) => {
                     content: post.content,
                     approved: post.approved
                 })
-            }, [])
+            })
+    }, [])
 
-
-
-        const handleAddTags = () => {
-
-            modal.current.close()
-            history.push(`/posts/edit/${postId}`)
-        }
-
-        return (
-
-            <section key={`post--${post.id}`} className="post">
-                <h2 className="post__title">{post.title}</h2>
-                <div className="post_author">By: {post.rareUser}</div>
-                <div className="post__publication_date">Published on:&nbsp;
-                            {
-                        new Date(post.publicationDate).toLocaleDateString("en-US",
-                            {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            })
-                    }
-                </div>
-                <img className="post_imageUrl" src={post.imageUrl} />
-                <div className="post_content">{post.content}</div>
-                <button onClick={() => modal.current.showModal()}>Add Tags</button>
-
-
-                <dialog className="claimModal" ref={modal}>
-                    <h3>Choose Tags</h3>
-                    {tags.map(tag => (
-                        < label value={tag.id} > { tag.label}
-                            < input type="checkbox" > {tag.label}</input>
-                        </label>
-                    ))
-                    }
-                    <button onClick={handleAddTags}>Add Tags and Close</button>
-                </dialog >
-                <button className="submit_button" onClick={() => deletePost(post.id).then(() => history.push("/posts"))}
-                >Delete</button>
-
-                <button onClick={() => history.push(`/posts/${postId}/edit`)}
-                >Edit</button>
-            </section >
-        )
+    const handleAddTags = () => {
+        modal.current.close()
+        history.push(`/posts/edit/${postId}`)
     }
+
+    return (
+        <section key={`post--${post.id}`} className="post">
+            <h2 className="post__title">{post.title}</h2>
+            <div className="post_author">By: {post.rareUser}</div>
+            <div className="post__publication_date">Published on:&nbsp;
+                            {
+                    new Date(post.publicationDate).toLocaleDateString("en-US",
+                        {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        })
+                }
+            </div>
+            <img className="post_imageUrl" src={post.imageUrl} />
+            <div className="post_content">{post.content}</div>
+            <button onClick={() => modal.current.showModal()}>Add Tags</button>
+
+            <dialog className="claimModal" ref={modal}>
+                <h3>Choose Tags</h3>
+                {tags.map(tag => (
+                    <div>
+                        < label key={tag.id} value={tag.id} > {tag.label}</label>
+                        < input type="checkbox" value={ }> {tag.label}</input>
+                    </div>
+                ))}
+                <button onClick={handleAddTags}>Add Tags and Close</button>
+            </dialog >
+
+            <button className="submit_button" onClick={() => deletePost(post.id).then(() => history.push("/posts"))}
+            >Delete</button>
+
+            <button onClick={() => history.push(`/posts/${postId}/edit`)}
+            >Edit</button>
+        </section >
+    )
+}
