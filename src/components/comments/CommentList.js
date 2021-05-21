@@ -73,9 +73,10 @@ export const CommentList = (props) => {
         <div className="post__comments">
             <h1>Comments</h1>
 
-            <button onClick={() => history.push("/comments/create")}>
+            <button onClick={() => history.push({ pathname: "/comments/create" })}>
                 Create Comment
             </button>
+
 
             <div className="comments">
                 {

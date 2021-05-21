@@ -52,12 +52,12 @@ export const ApplicationViews = (props) => {
                     <Route exact path="/comments">
                         <CommentList />
                     </Route>
-                    <Route exact path="/comments/create">
+                    {/* <Route exact path="/comments/create">
                         <CommentForm />
-                    </Route>
-                    <Route exact path="/comments/:commentId/update">
+                    </Route> */}
+                    {/* <Route exact path="/comments/:commentId(\d+)/update">
                             <CommentForm />
-                    </Route>
+                    </Route> */}
                 </PostProvider>
             </CommentProvider>
 

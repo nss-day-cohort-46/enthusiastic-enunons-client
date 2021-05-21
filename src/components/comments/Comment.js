@@ -5,7 +5,7 @@ import { CommentContext } from "./CommentProvider"
 
 export const Comment = ( { comment } ) => {
 
-    const { deleteComment, getCommentById } = useContext(CommentContext)
+    const { deleteComment, getCommentById, getComments } = useContext(CommentContext)
     const [comments, setComments] = useState({})
 
     const history = useHistory();
@@ -19,14 +19,14 @@ export const Comment = ( { comment } ) => {
     }
 
     useEffect(() => {
-        // getComments()
+        getComments()
         }, [])
 
     return (
         <section className="comment">
-            <h3 className="comment__text">{ comment.content }</h3>
+            <h3 className="comment__text">{ comment?.content }</h3>
             <button id="edit__button" onClick={() => {
-                history.push(`/comments/update/${comment.id}`)
+                history.push({pathname: `/comments/${comment.id}/update`})
                 }}>Edit
             </button>
             <button id="delete__comment" onClick={handleDelete}>Delete Comment</button>

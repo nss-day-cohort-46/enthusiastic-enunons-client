@@ -37,6 +37,7 @@ export const CommentProvider = (props) => {
     }
 
     const updateComment = comment => {
+        // debugger
         return fetch(`http://localhost:8000/comments/${comment.id}`, {
             method: "PUT",
             headers: {
@@ -45,8 +46,8 @@ export const CommentProvider = (props) => {
             },
             body: JSON.stringify(comment)
         })
-            .then(getComments)
-        }
+            // .then(getComments)
+    }
     
     const deleteComment = commentId => {
         return fetch(`http://localhost:8000/comments/${ commentId }`, {
