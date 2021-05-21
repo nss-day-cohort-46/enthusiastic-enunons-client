@@ -5,12 +5,11 @@ import { Category } from "./Category"
 import "./Category.css"
 
 export const CategoryList = () => {
-    const { categories, getCategories, searchTerms } = useContext(CategoryContext)
-    const [filteredCategories, setFilteredCategories] = useState([])
+    const { categories, getCategories, getCategoriesSearch, searchTerms } = useContext(CategoryContext)
     const history = useHistory();
 
     useEffect(() => {
-        getCategories(searchTerms)
+        getCategoriesSearch(searchTerms)
     }, [searchTerms])
 
     //good useEffect
