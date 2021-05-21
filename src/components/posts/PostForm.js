@@ -4,12 +4,12 @@ import { HumanDate } from "../utils/HumanDate"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 export const PostForm = (props) => {
-    
+
     const { addPost, updatePost, post, setPost, getPosts } = useContext(PostContext)
     const { categories, getCategories } = useContext(CategoryContext)
     const [editMode, editModeChanged] = useState(false);
     useEffect(() => {
-    
+
         getPosts()
         getCategories()
     }, [])
@@ -60,9 +60,9 @@ export const PostForm = (props) => {
             })
             // .then(() => history.push("/posts"))
         }
-        setPost({ title: "", imageUrl: "", content: ""})
+        setPost({ title: "", imageUrl: "", content: "" })
     }
-    
+
     return (
         <form className="postForm" action="/action_page.php">
             <h2 className="postForm__title">{editMode ? "Update Post" : "Create Post"}</h2>
@@ -97,12 +97,12 @@ export const PostForm = (props) => {
 
                         <option value="0">Select a Category</option>
                         {
-                        categories.map(c => (
-                            
-                            <option key={c.id} value={c.id}>
-                                {c.label}
-                            </option>
-                        ))}
+                            categories.map(c => (
+
+                                <option key={c.id} value={c.id}>
+                                    {c.label}
+                                </option>
+                            ))}
                     </select>
                 </div>
             </fieldset>
@@ -118,20 +118,20 @@ export const PostForm = (props) => {
                         value={post.imageUrl}
                         onChange={handleControlledInputChange}
                     />
-                    <input type="file" id="myFile" name="filename"/>
+                    <input type="file" id="myFile" name="filename" />
                     <input type="submit"></input>
                 </div>
             </fieldset>
 
-         <div>
+            <div>
                 <button type="submit"
-                onClick={evt => {
-                    evt.preventDefault()
-                    constructNewPost()
-                }}
-                className="btn btn-primary">
-                {editMode ? "Update" : "Save"}
-            </button>
+                    onClick={evt => {
+                        evt.preventDefault()
+                        constructNewPost()
+                    }}
+                    className="btn btn-primary">
+                    {editMode ? "Update" : "Save"}
+                </button>
             </div>
         </form>
     )
