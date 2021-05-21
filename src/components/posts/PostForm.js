@@ -135,14 +135,16 @@ export const PostForm = (props) => {
             </fieldset>
 
          <div>
-            <button type="submit"
+            <button type="submit" className="btn btn-primary"
                 
                 onClick={(event) => 
                     handleSavePost(event)
-                }
-                className="btn btn-primary">
+                }>
                 {postId ? "Update" : "Publish"}
             </button>
+            {postId ? <button className="btn btn-cancel"
+                onClick={() => { history.push("/posts") }}>Cancel
+            </button> : ""}
         </div>
     </form>
     )
